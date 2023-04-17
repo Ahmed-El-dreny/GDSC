@@ -1,0 +1,397 @@
+
+2Sw_7Segment.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000026c  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         0000000a  00800060  0000026c  00000300  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000001  0080006a  0080006a  0000030a  2**0
+                  ALLOC
+  3 .stab         00000474  00000000  00000000  0000030c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  4 .stabstr      00000770  00000000  00000000  00000780  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  2c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  34:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  38:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  3c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  40:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  44:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  48:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  4c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  50:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d8 e0       	ldi	r29, 0x08	; 8
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	ec e6       	ldi	r30, 0x6C	; 108
+  68:	f2 e0       	ldi	r31, 0x02	; 2
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <.do_copy_data_start>
+
+0000006c <.do_copy_data_loop>:
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+
+00000070 <.do_copy_data_start>:
+  70:	aa 36       	cpi	r26, 0x6A	; 106
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <.do_copy_data_loop>
+
+00000076 <__do_clear_bss>:
+  76:	10 e0       	ldi	r17, 0x00	; 0
+  78:	aa e6       	ldi	r26, 0x6A	; 106
+  7a:	b0 e0       	ldi	r27, 0x00	; 0
+  7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
+
+0000007e <.do_clear_bss_loop>:
+  7e:	1d 92       	st	X+, r1
+
+00000080 <.do_clear_bss_start>:
+  80:	ab 36       	cpi	r26, 0x6B	; 107
+  82:	b1 07       	cpc	r27, r17
+  84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
+  86:	0e 94 49 00 	call	0x92	; 0x92 <main>
+  8a:	0c 94 34 01 	jmp	0x268	; 0x268 <_exit>
+
+0000008e <__bad_interrupt>:
+  8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000092 <main>:
+#define PIND *((volatile uint8*)0x30)
+
+typedef unsigned char uint8;
+
+int main(void)
+{
+  92:	df 93       	push	r29
+  94:	cf 93       	push	r28
+  96:	cd b7       	in	r28, 0x3d	; 61
+  98:	de b7       	in	r29, 0x3e	; 62
+  9a:	2f 97       	sbiw	r28, 0x0f	; 15
+  9c:	0f b6       	in	r0, 0x3f	; 63
+  9e:	f8 94       	cli
+  a0:	de bf       	out	0x3e, r29	; 62
+  a2:	0f be       	out	0x3f, r0	; 63
+  a4:	cd bf       	out	0x3d, r28	; 61
+	uint8 digit[] = {0x3f,0x06,0x5b,
+				   	 0x4f,0x66,0x6d,
+					 0x7d,0x07,0x7f,
+					 0x6f};
+  a6:	ce 01       	movw	r24, r28
+  a8:	01 96       	adiw	r24, 0x01	; 1
+  aa:	9c 87       	std	Y+12, r25	; 0x0c
+  ac:	8b 87       	std	Y+11, r24	; 0x0b
+  ae:	e0 e6       	ldi	r30, 0x60	; 96
+  b0:	f0 e0       	ldi	r31, 0x00	; 0
+  b2:	fe 87       	std	Y+14, r31	; 0x0e
+  b4:	ed 87       	std	Y+13, r30	; 0x0d
+  b6:	fa e0       	ldi	r31, 0x0A	; 10
+  b8:	ff 87       	std	Y+15, r31	; 0x0f
+  ba:	ed 85       	ldd	r30, Y+13	; 0x0d
+  bc:	fe 85       	ldd	r31, Y+14	; 0x0e
+  be:	00 80       	ld	r0, Z
+  c0:	8d 85       	ldd	r24, Y+13	; 0x0d
+  c2:	9e 85       	ldd	r25, Y+14	; 0x0e
+  c4:	01 96       	adiw	r24, 0x01	; 1
+  c6:	9e 87       	std	Y+14, r25	; 0x0e
+  c8:	8d 87       	std	Y+13, r24	; 0x0d
+  ca:	eb 85       	ldd	r30, Y+11	; 0x0b
+  cc:	fc 85       	ldd	r31, Y+12	; 0x0c
+  ce:	00 82       	st	Z, r0
+  d0:	8b 85       	ldd	r24, Y+11	; 0x0b
+  d2:	9c 85       	ldd	r25, Y+12	; 0x0c
+  d4:	01 96       	adiw	r24, 0x01	; 1
+  d6:	9c 87       	std	Y+12, r25	; 0x0c
+  d8:	8b 87       	std	Y+11, r24	; 0x0b
+  da:	9f 85       	ldd	r25, Y+15	; 0x0f
+  dc:	91 50       	subi	r25, 0x01	; 1
+  de:	9f 87       	std	Y+15, r25	; 0x0f
+  e0:	ef 85       	ldd	r30, Y+15	; 0x0f
+  e2:	ee 23       	and	r30, r30
+  e4:	51 f7       	brne	.-44     	; 0xba <main+0x28>
+	static uint8 counter = 0;
+
+	DDRA = 0;
+  e6:	ea e3       	ldi	r30, 0x3A	; 58
+  e8:	f0 e0       	ldi	r31, 0x00	; 0
+  ea:	10 82       	st	Z, r1
+	DDRC = 255;
+  ec:	e4 e3       	ldi	r30, 0x34	; 52
+  ee:	f0 e0       	ldi	r31, 0x00	; 0
+  f0:	8f ef       	ldi	r24, 0xFF	; 255
+  f2:	80 83       	st	Z, r24
+
+	PORTA = 255;
+  f4:	eb e3       	ldi	r30, 0x3B	; 59
+  f6:	f0 e0       	ldi	r31, 0x00	; 0
+  f8:	8f ef       	ldi	r24, 0xFF	; 255
+  fa:	80 83       	st	Z, r24
+	PORTC = 0;
+  fc:	e5 e3       	ldi	r30, 0x35	; 53
+  fe:	f0 e0       	ldi	r31, 0x00	; 0
+ 100:	10 82       	st	Z, r1
+ 102:	30 c0       	rjmp	.+96     	; 0x164 <main+0xd2>
+
+	while(1)
+	{
+		while(counter <= 0)
+		{
+			PORTC = digit[0];
+ 104:	e5 e3       	ldi	r30, 0x35	; 53
+ 106:	f0 e0       	ldi	r31, 0x00	; 0
+ 108:	89 81       	ldd	r24, Y+1	; 0x01
+ 10a:	80 83       	st	Z, r24
+			if(((PINA >> 0)& 1) == 0)
+ 10c:	e9 e3       	ldi	r30, 0x39	; 57
+ 10e:	f0 e0       	ldi	r31, 0x00	; 0
+ 110:	80 81       	ld	r24, Z
+ 112:	88 2f       	mov	r24, r24
+ 114:	90 e0       	ldi	r25, 0x00	; 0
+ 116:	81 70       	andi	r24, 0x01	; 1
+ 118:	90 70       	andi	r25, 0x00	; 0
+ 11a:	00 97       	sbiw	r24, 0x00	; 0
+ 11c:	79 f4       	brne	.+30     	; 0x13c <main+0xaa>
+			{
+				counter++;
+ 11e:	80 91 6a 00 	lds	r24, 0x006A
+ 122:	8f 5f       	subi	r24, 0xFF	; 255
+ 124:	80 93 6a 00 	sts	0x006A, r24
+				while(((PINA >> 0)& 1) == 0);
+ 128:	e9 e3       	ldi	r30, 0x39	; 57
+ 12a:	f0 e0       	ldi	r31, 0x00	; 0
+ 12c:	80 81       	ld	r24, Z
+ 12e:	88 2f       	mov	r24, r24
+ 130:	90 e0       	ldi	r25, 0x00	; 0
+ 132:	81 70       	andi	r24, 0x01	; 1
+ 134:	90 70       	andi	r25, 0x00	; 0
+ 136:	00 97       	sbiw	r24, 0x00	; 0
+ 138:	b9 f3       	breq	.-18     	; 0x128 <main+0x96>
+ 13a:	14 c0       	rjmp	.+40     	; 0x164 <main+0xd2>
+			}
+
+			else if(((PINA >> 1)& 1) == 0)
+ 13c:	e9 e3       	ldi	r30, 0x39	; 57
+ 13e:	f0 e0       	ldi	r31, 0x00	; 0
+ 140:	80 81       	ld	r24, Z
+ 142:	86 95       	lsr	r24
+ 144:	88 2f       	mov	r24, r24
+ 146:	90 e0       	ldi	r25, 0x00	; 0
+ 148:	81 70       	andi	r24, 0x01	; 1
+ 14a:	90 70       	andi	r25, 0x00	; 0
+ 14c:	00 97       	sbiw	r24, 0x00	; 0
+ 14e:	51 f4       	brne	.+20     	; 0x164 <main+0xd2>
+			{
+				while(((PINA >> 1)& 1) == 0);
+ 150:	e9 e3       	ldi	r30, 0x39	; 57
+ 152:	f0 e0       	ldi	r31, 0x00	; 0
+ 154:	80 81       	ld	r24, Z
+ 156:	86 95       	lsr	r24
+ 158:	88 2f       	mov	r24, r24
+ 15a:	90 e0       	ldi	r25, 0x00	; 0
+ 15c:	81 70       	andi	r24, 0x01	; 1
+ 15e:	90 70       	andi	r25, 0x00	; 0
+ 160:	00 97       	sbiw	r24, 0x00	; 0
+ 162:	b1 f3       	breq	.-20     	; 0x150 <main+0xbe>
+	PORTA = 255;
+	PORTC = 0;
+
+	while(1)
+	{
+		while(counter <= 0)
+ 164:	80 91 6a 00 	lds	r24, 0x006A
+ 168:	88 23       	and	r24, r24
+ 16a:	61 f2       	breq	.-104    	; 0x104 <main+0x72>
+ 16c:	3e c0       	rjmp	.+124    	; 0x1ea <main+0x158>
+		}
+
+
+		while ( (0 < counter) && (counter < 9) )
+		{
+			if(((PINA >> 0)& 1) == 0)
+ 16e:	e9 e3       	ldi	r30, 0x39	; 57
+ 170:	f0 e0       	ldi	r31, 0x00	; 0
+ 172:	80 81       	ld	r24, Z
+ 174:	88 2f       	mov	r24, r24
+ 176:	90 e0       	ldi	r25, 0x00	; 0
+ 178:	81 70       	andi	r24, 0x01	; 1
+ 17a:	90 70       	andi	r25, 0x00	; 0
+ 17c:	00 97       	sbiw	r24, 0x00	; 0
+ 17e:	79 f4       	brne	.+30     	; 0x19e <main+0x10c>
+			{
+				counter++;
+ 180:	80 91 6a 00 	lds	r24, 0x006A
+ 184:	8f 5f       	subi	r24, 0xFF	; 255
+ 186:	80 93 6a 00 	sts	0x006A, r24
+				while(((PINA >> 0)& 1) == 0);
+ 18a:	e9 e3       	ldi	r30, 0x39	; 57
+ 18c:	f0 e0       	ldi	r31, 0x00	; 0
+ 18e:	80 81       	ld	r24, Z
+ 190:	88 2f       	mov	r24, r24
+ 192:	90 e0       	ldi	r25, 0x00	; 0
+ 194:	81 70       	andi	r24, 0x01	; 1
+ 196:	90 70       	andi	r25, 0x00	; 0
+ 198:	00 97       	sbiw	r24, 0x00	; 0
+ 19a:	b9 f3       	breq	.-18     	; 0x18a <main+0xf8>
+ 19c:	19 c0       	rjmp	.+50     	; 0x1d0 <main+0x13e>
+			}
+
+			else if(((PINA >> 1)& 1) == 0)
+ 19e:	e9 e3       	ldi	r30, 0x39	; 57
+ 1a0:	f0 e0       	ldi	r31, 0x00	; 0
+ 1a2:	80 81       	ld	r24, Z
+ 1a4:	86 95       	lsr	r24
+ 1a6:	88 2f       	mov	r24, r24
+ 1a8:	90 e0       	ldi	r25, 0x00	; 0
+ 1aa:	81 70       	andi	r24, 0x01	; 1
+ 1ac:	90 70       	andi	r25, 0x00	; 0
+ 1ae:	00 97       	sbiw	r24, 0x00	; 0
+ 1b0:	79 f4       	brne	.+30     	; 0x1d0 <main+0x13e>
+			{
+				counter--;
+ 1b2:	80 91 6a 00 	lds	r24, 0x006A
+ 1b6:	81 50       	subi	r24, 0x01	; 1
+ 1b8:	80 93 6a 00 	sts	0x006A, r24
+				while(((PINA >> 1)& 1) == 0);
+ 1bc:	e9 e3       	ldi	r30, 0x39	; 57
+ 1be:	f0 e0       	ldi	r31, 0x00	; 0
+ 1c0:	80 81       	ld	r24, Z
+ 1c2:	86 95       	lsr	r24
+ 1c4:	88 2f       	mov	r24, r24
+ 1c6:	90 e0       	ldi	r25, 0x00	; 0
+ 1c8:	81 70       	andi	r24, 0x01	; 1
+ 1ca:	90 70       	andi	r25, 0x00	; 0
+ 1cc:	00 97       	sbiw	r24, 0x00	; 0
+ 1ce:	b1 f3       	breq	.-20     	; 0x1bc <main+0x12a>
+			}
+
+			PORTC = digit[counter];
+ 1d0:	a5 e3       	ldi	r26, 0x35	; 53
+ 1d2:	b0 e0       	ldi	r27, 0x00	; 0
+ 1d4:	80 91 6a 00 	lds	r24, 0x006A
+ 1d8:	28 2f       	mov	r18, r24
+ 1da:	30 e0       	ldi	r19, 0x00	; 0
+ 1dc:	ce 01       	movw	r24, r28
+ 1de:	01 96       	adiw	r24, 0x01	; 1
+ 1e0:	fc 01       	movw	r30, r24
+ 1e2:	e2 0f       	add	r30, r18
+ 1e4:	f3 1f       	adc	r31, r19
+ 1e6:	80 81       	ld	r24, Z
+ 1e8:	8c 93       	st	X, r24
+				while(((PINA >> 1)& 1) == 0);
+			}
+		}
+
+
+		while ( (0 < counter) && (counter < 9) )
+ 1ea:	80 91 6a 00 	lds	r24, 0x006A
+ 1ee:	88 23       	and	r24, r24
+ 1f0:	b1 f1       	breq	.+108    	; 0x25e <main+0x1cc>
+ 1f2:	80 91 6a 00 	lds	r24, 0x006A
+ 1f6:	89 30       	cpi	r24, 0x09	; 9
+ 1f8:	08 f4       	brcc	.+2      	; 0x1fc <main+0x16a>
+ 1fa:	b9 cf       	rjmp	.-142    	; 0x16e <main+0xdc>
+ 1fc:	30 c0       	rjmp	.+96     	; 0x25e <main+0x1cc>
+		}
+
+
+		while(counter >= 9)
+		{
+			PORTC = digit[9];
+ 1fe:	e5 e3       	ldi	r30, 0x35	; 53
+ 200:	f0 e0       	ldi	r31, 0x00	; 0
+ 202:	8a 85       	ldd	r24, Y+10	; 0x0a
+ 204:	80 83       	st	Z, r24
+			if(((PINA >> 0)& 1) == 0)
+ 206:	e9 e3       	ldi	r30, 0x39	; 57
+ 208:	f0 e0       	ldi	r31, 0x00	; 0
+ 20a:	80 81       	ld	r24, Z
+ 20c:	88 2f       	mov	r24, r24
+ 20e:	90 e0       	ldi	r25, 0x00	; 0
+ 210:	81 70       	andi	r24, 0x01	; 1
+ 212:	90 70       	andi	r25, 0x00	; 0
+ 214:	00 97       	sbiw	r24, 0x00	; 0
+ 216:	51 f4       	brne	.+20     	; 0x22c <main+0x19a>
+			{
+				while(((PINA >> 0)& 1) == 0);
+ 218:	e9 e3       	ldi	r30, 0x39	; 57
+ 21a:	f0 e0       	ldi	r31, 0x00	; 0
+ 21c:	80 81       	ld	r24, Z
+ 21e:	88 2f       	mov	r24, r24
+ 220:	90 e0       	ldi	r25, 0x00	; 0
+ 222:	81 70       	andi	r24, 0x01	; 1
+ 224:	90 70       	andi	r25, 0x00	; 0
+ 226:	00 97       	sbiw	r24, 0x00	; 0
+ 228:	b9 f3       	breq	.-18     	; 0x218 <main+0x186>
+ 22a:	19 c0       	rjmp	.+50     	; 0x25e <main+0x1cc>
+			}
+
+			else if(((PINA >> 1)& 1) == 0)
+ 22c:	e9 e3       	ldi	r30, 0x39	; 57
+ 22e:	f0 e0       	ldi	r31, 0x00	; 0
+ 230:	80 81       	ld	r24, Z
+ 232:	86 95       	lsr	r24
+ 234:	88 2f       	mov	r24, r24
+ 236:	90 e0       	ldi	r25, 0x00	; 0
+ 238:	81 70       	andi	r24, 0x01	; 1
+ 23a:	90 70       	andi	r25, 0x00	; 0
+ 23c:	00 97       	sbiw	r24, 0x00	; 0
+ 23e:	79 f4       	brne	.+30     	; 0x25e <main+0x1cc>
+			{
+				counter--;
+ 240:	80 91 6a 00 	lds	r24, 0x006A
+ 244:	81 50       	subi	r24, 0x01	; 1
+ 246:	80 93 6a 00 	sts	0x006A, r24
+				while(((PINA >> 1)& 1) == 0);
+ 24a:	e9 e3       	ldi	r30, 0x39	; 57
+ 24c:	f0 e0       	ldi	r31, 0x00	; 0
+ 24e:	80 81       	ld	r24, Z
+ 250:	86 95       	lsr	r24
+ 252:	88 2f       	mov	r24, r24
+ 254:	90 e0       	ldi	r25, 0x00	; 0
+ 256:	81 70       	andi	r24, 0x01	; 1
+ 258:	90 70       	andi	r25, 0x00	; 0
+ 25a:	00 97       	sbiw	r24, 0x00	; 0
+ 25c:	b1 f3       	breq	.-20     	; 0x24a <main+0x1b8>
+
+			PORTC = digit[counter];
+		}
+
+
+		while(counter >= 9)
+ 25e:	80 91 6a 00 	lds	r24, 0x006A
+ 262:	89 30       	cpi	r24, 0x09	; 9
+ 264:	60 f6       	brcc	.-104    	; 0x1fe <main+0x16c>
+ 266:	7e cf       	rjmp	.-260    	; 0x164 <main+0xd2>
+
+00000268 <_exit>:
+ 268:	f8 94       	cli
+
+0000026a <__stop_program>:
+ 26a:	ff cf       	rjmp	.-2      	; 0x26a <__stop_program>
